@@ -1,6 +1,12 @@
 # PhxCqrs.Todos
 
 **TODO: Add description**
+```
+mix deps.get
+mix do event_store.create, event_store.init
+env MIX_ENV=test mix do event_store.create, event_store.init
+mix test
+```
 
 ## Installation
 
