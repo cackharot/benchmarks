@@ -15,4 +15,16 @@ defmodule PhxCqrs.Events do
   def hello do
     :world
   end
+
+  defmodule TodoListCreated do
+    defstruct [:id, :description]
+  end
+
+  defmodule TodoItemAdded do
+    defstruct [:id, :title, :description, :completed]
+  end
+
+  defmodule TodoItemCompleted do
+    defstruct [:id]
+  end
 end

@@ -3,16 +3,23 @@ defmodule PhxCqrs.Commands do
   Documentation for PhxCqrs.Commands.
   """
 
-  @doc """
-  Hello world.
+  defmodule CreateTodoList do
+    defstruct [:id, :description]
+  end
 
-  ## Examples
+  defmodule AddTodoItem do
+    defstruct [:title, :description, :completed]
+  end
 
-      iex> PhxCqrs.Commands.hello
-      :world
+  defmodule DeleteTodoItem do
+    defstruct [:id]
+  end
 
-  """
-  def hello do
-    :world
+  defmodule CompleteTodoItem do
+    defstruct [:id]
+  end
+
+  defmodule UpdateTodoItem do
+    defstruct [:id, :title, :description]
   end
 end
