@@ -8,6 +8,7 @@ Tests the below api's
 
 ### Requirements
 * brew install elixir
+* brew install postgres or run as docker container `sh ./start_postgres.sh`
 
 To start the app:
 
@@ -29,9 +30,8 @@ curl http://localhost:4001/api/raw
 
 ### Benchmark
 
-Start the app in the production mode.
+Create the config/prod.secret.exs, update the postgres db credentials
 
-Create the config/prod.secret.exs
 ```
 use Mix.Config
 
@@ -47,7 +47,7 @@ config :phx_bench_api, PhxBenchApi.Repo,
   pool_size: 50
 ```
 
-Then run
+Start the postgres db and run the app in the production mode
 ```
 env MIX_ENV=prod mix do deps.get, compile, release, ecto.create, ecto.migrate && \
   env PORT=4001 rel/phx_bench_api/bin/phx_bench_api foreground
