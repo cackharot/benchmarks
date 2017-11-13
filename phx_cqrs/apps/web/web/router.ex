@@ -7,5 +7,7 @@ defmodule PhxCqrs.Web.Router do
 
   scope "/api", PhxCqrs.Web do
     pipe_through :api
+
+    resources "/todos", TodoController, except: [:new, :edit]
   end
 end

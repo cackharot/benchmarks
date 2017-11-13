@@ -25,6 +25,14 @@ defmodule PhxCqrs.Todo do
     end
   end
 
+  def get(id) do
+    get(TodoListProjection, id)
+  end
+
+  def all() do
+    Repo.all(TodoListProjection)
+  end
+
   defp get(schema, uuid) do
     case Repo.get(schema, uuid) do
       nil -> {:error, :not_found}
