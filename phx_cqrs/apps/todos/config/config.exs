@@ -2,8 +2,14 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+config :todos,
+    ecto_repos: [PhxCqrs.Todos.Repo]
+
 config :commanded,
     event_store_adapter: Commanded.EventStore.Adapters.EventStore
+
+config :commanded_ecto_projections,
+    repo: PhxCqrs.Todos.Repo
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

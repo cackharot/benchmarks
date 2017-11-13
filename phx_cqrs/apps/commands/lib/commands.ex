@@ -5,6 +5,13 @@ defmodule PhxCqrs.Commands do
 
   defmodule CreateTodoList do
     defstruct [:id, :description]
+
+    use ExConstructor
+    use Vex.Struct
+
+    def assign_uuid(%CreateTodoList{} = model, uuid) do
+      %CreateTodoList{model | id: uuid}
+    end
   end
 
   defmodule AddTodoItem do
