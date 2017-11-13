@@ -17,12 +17,6 @@ defmodule PhxCqrs.Web.Web do
   and import those modules here.
   """
 
-  def model do
-    quote do
-      # Define common model functionality
-    end
-  end
-
   def controller do
     quote do
       use Phoenix.Controller, namespace: PhxCqrs.Web
