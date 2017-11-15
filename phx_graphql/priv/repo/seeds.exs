@@ -9,3 +9,8 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will halt execution if something goes wrong.
+alias PhxGraphql.News.Link
+alias PhxGraphql.Repo
+
+%Link{url: "http://graphql.org/", description: "The Best Query Language"} |> Repo.insert!
+%Link{url: "http://dev.apollodata.com/", description: "Awesome GraphQL Client"} |> Repo.insert!
