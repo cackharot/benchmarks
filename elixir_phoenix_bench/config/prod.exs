@@ -18,11 +18,18 @@ config :phx_bench_api, PhxBenchApi.Endpoint,
     protocol_options: [max_keepalive: 5_000_000]
   ],
   url: [host: "example.com", port: 80],
-  server: true
+  secret_key_base: "YnwTjGRrkzfqaogjnlkfPI9EQwpBZJjyHWsyRQ1V0ScasSimCz3ET/xQ1nEh7IJB"
   # cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
 config :logger, level: :warn
+
+# Configure your database
+config :phx_bench_api, PhxBenchApi.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "phx_bench_api_prod",
+  pool_size: 50
+
 
 # ## SSL Support
 #
@@ -65,4 +72,4 @@ config :phx_bench_api, PhxBenchApi.Endpoint, server: true
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
+# import_config "prod.secret.exs"

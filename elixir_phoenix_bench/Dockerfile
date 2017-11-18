@@ -1,13 +1,17 @@
-FROM aeons/elixir-gcc:1.4.1
+FROM alpine:3.5
 
-ENV MIX_ENV=prod
+RUN apk --no-cache add ncurses-libs bash
 
-WORKDIR /opt/app
+WORKDIR /opt/app/
 
-COPY mix.exs mix.lock ./
+EXPOSE 4000
+ENV PORT=4000 MIX_ENV=prod REPLACE_OS_VARS=true SHELL=/bin/bash
 
-RUN mix do deps.get, deps.compile
+ADD phx_bench_api.tar.gz ./
 
-COPY . .
+RUN adduser -S default
+RUN chown -R default .
+USER default
 
-RUN mix release --env=prod --verbose
+#ENTRYPOINT ["/opt/app/bin/phx_bench_api"]
+CMD trap exit TERM; /opt/app/bin/phx_bench_api foreground & wait
