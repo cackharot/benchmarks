@@ -5,6 +5,8 @@
 # is restricted to this project.
 use Mix.Config
 
+config :mix_docker, image: "13.127.47.6:30400/testing/phx_bench"
+
 # General application configuration
 config :phx_bench_api,
   ecto_repos: [PhxBenchApi.Repo]

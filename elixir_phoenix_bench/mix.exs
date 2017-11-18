@@ -41,7 +41,7 @@ defmodule PhxBenchApi.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:exrm, "~> 1.0"},
+      {:mix_docker, "~> 0.5.0"},
       {:ja_serializer, "~> 0.12.0"},
       {:corsica, "~> 0.4"}
     ]

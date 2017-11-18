@@ -17,7 +17,8 @@ config :phx_bench_api, PhxBenchApi.Endpoint,
     port: {:system, "PORT"},
     protocol_options: [max_keepalive: 5_000_000]
   ],
-  url: [host: "example.com", port: 80]
+  url: [host: "example.com", port: 80],
+  server: true
   # cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production

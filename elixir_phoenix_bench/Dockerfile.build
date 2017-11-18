@@ -1,0 +1,13 @@
+FROM aeons/elixir-gcc:1.4.1
+
+ENV MIX_ENV=prod
+
+WORKDIR /opt/app
+
+COPY mix.exs mix.lock ./
+
+RUN mix do deps.get, deps.compile
+
+COPY . .
+
+RUN mix release --env=prod --verbose
