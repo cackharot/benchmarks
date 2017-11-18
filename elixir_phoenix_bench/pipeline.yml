@@ -5,11 +5,11 @@ jobs:
   plan:
   - get: src-phx-bench
   - task: build
-    file: src-phx-bench/tasks/build.yml
+    file: src-phx-bench/elixir_phoenix_bench/tasks/build.yml
   - put: phx-bench-docker-image
+    get_params: {skip_download: true}
     params:
-      build: src-phx-bench
-      dockerfile: Dockerfile
+      build: rel-artifacts
 
 resources:
 - name: src-phx-bench
