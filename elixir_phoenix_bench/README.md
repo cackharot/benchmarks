@@ -115,4 +115,24 @@ Requests/sec:  29861.83
 Transfer/sec:      6.83MB
 ```
 
+## Docker build and runtime images
 
+To build a prod release of a runable docker image, use
+
+```
+mix docker.build
+mix docker.release
+```
+
+`docker-compose up` to start postgresql db and the app.
+
+*Note:* app will fail to come up since the db does not have any schemas.
+We need to create schemas before starting the app. Follow the below steps
+
+- Comment the "web" section in the docker compose file and run
+  ```
+  env MIX_ENV=prod mix do ecto.create, ecto.migrate
+  ```
+  This will create required schema in the running db container.
+- Stop the docker-compose up and uncomment the "web" section
+- `docker-compose up` should bring up both db and app and its ready to serve.

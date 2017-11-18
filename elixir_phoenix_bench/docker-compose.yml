@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass123
+      POSTGRES_DB: phx_bench_api_prod
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  web:
+    image: 13.127.47.6:30400/testing/phx_bench:release
+    environment:
+      DATABASE_URL: ecto://postgres:pass123@postgres-db/phx_bench_api_prod
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    links:
+      - db:postgres-db
