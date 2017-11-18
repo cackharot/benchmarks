@@ -1,0 +1,28 @@
+jobs:
+- name: job-publish
+  public: true
+  serial: true
+  plan:
+  - get: src-phx-bench
+  - task: build
+    file: src-phx-bench/tasks/build.yml
+  - put: phx-bench-docker-image
+    params:
+      build: src-phx-bench
+      dockerfile: Dockerfile
+
+resources:
+- name: src-phx-bench
+  type: git
+  source:
+    uri: https://github.com/cackharot/benchmarks.git
+    branch: master
+    paths: [elixir_phoenix_bench]
+
+- name: phx-bench-docker-image
+  type: docker-image
+  source:
+    repository: 13.127.47.6:30400/testing/phx_bench
+    tag: debug
+    insecure_registries:
+      - "13.127.47.6:30400"
