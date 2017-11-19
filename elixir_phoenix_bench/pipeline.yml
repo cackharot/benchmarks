@@ -7,39 +7,61 @@ jobs:
   - task: unit-test
     file: src-phx-bench/elixir_phoenix_bench/tasks/unit-test.yml
 - name: integration-test
+  serial: true
   plan:
   - get: src-phx-bench
     passed: [unit-test]
     trigger: true
   - task: integration-test
     file: src-phx-bench/elixir_phoenix_bench/tasks/integration-test.yml
-- name: release-build
+- name: build-rc
+  serial_groups: [version]
   plan:
   - get: src-phx-bench
     passed: [integration-test]
     trigger: true
-  - task: rel-build
+  - get: version
+    params: {pre: rc}
+  - task: build-artifact
     file: src-phx-bench/elixir_phoenix_bench/tasks/build.yml
-  - put: publish
-    resource: phx-bench-docker-image
-    get_params: {skip_download: true}
-    params:
-      build: rel-artifacts
+  - put: pl-elixir-phoenix-rc
+    params: {file: built-artifact/phx_bench_api-*.tar.gz}
+  - put: version
+    params: {file: version/number}
+  # - put: publish
+  #   resource: phx-bench-docker-image
+  #   get_params: {skip_download: true}
+  #   params:
+  #     build: ship
 
 resources:
 - name: src-phx-bench
   type: git
   source:
-    uri: git@bitbucket.org:ato_dev/pl_elixir.git
+    uri: https://github.com/cackharot/benchmarks.git
     branch: master
     paths: [elixir_phoenix_bench]
-    private_key: ((private-repo-key))
-
-
-- name: phx-bench-docker-image
-  type: docker-image
+    # private_key: ((private-repo-key))
+- name: version
+  type: semver
   source:
-    repository: 13.127.47.6:30400/testing/phx_bench
-    tag: debug
-    insecure_registries:
-      - "13.127.47.6:30400"
+    bucket: pl-elixir-phoenix-artifacts
+    key: current-version
+    access_key_id: ((s3-access-key-id))
+    secret_access_key: ((s3-secret-access-key))
+    initial_version: 0.0.1
+- name: pl-elixir-phoenix-rc
+  type: s3
+  source:
+    bucket: pl-elixir-phoenix-artifacts
+    regexp: phx_bench_api-(.*).tar.gz
+    access_key_id: ((s3-access-key-id))
+    secret_access_key: ((s3-secret-access-key))
+
+# - name: phx-bench-docker-image
+#   type: docker-image
+#   source:
+#     repository: 13.127.47.6:30400/testing/phx_bench
+#     tag: debug
+#     insecure_registries:
+#       - "13.127.47.6:30400"
