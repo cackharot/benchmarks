@@ -1,16 +1,27 @@
 jobs:
-- name: build-phx-bench
-  public: true
+- name: unit-test
   serial: true
   plan:
   - get: src-phx-bench
-  - task: build
-    file: src-phx-bench/elixir_phoenix_bench/tasks/build.yml
+    trigger: true
   - task: unit-test
     file: src-phx-bench/elixir_phoenix_bench/tasks/unit-test.yml
+- name: integration-test
+  plan:
+  - get: src-phx-bench
+    passed: [unit-test]
+    trigger: true
   - task: integration-test
     file: src-phx-bench/elixir_phoenix_bench/tasks/integration-test.yml
-  - put: phx-bench-docker-image
+- name: release-build
+  plan:
+  - get: src-phx-bench
+    passed: [integration-test]
+    trigger: true
+  - task: rel-build
+    file: src-phx-bench/elixir_phoenix_bench/tasks/build.yml
+  - put: publish
+    resource: phx-bench-docker-image
     get_params: {skip_download: true}
     params:
       build: rel-artifacts
