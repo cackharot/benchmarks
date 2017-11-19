@@ -18,3 +18,5 @@ erl_crash.dump
 /config/*.secret.exs
 
 *.tar.gz
+
+credentials.yml

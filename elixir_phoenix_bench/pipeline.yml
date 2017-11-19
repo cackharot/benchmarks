@@ -30,9 +30,11 @@ resources:
 - name: src-phx-bench
   type: git
   source:
-    uri: https://github.com/cackharot/benchmarks.git
+    uri: git@bitbucket.org:ato_dev/pl_elixir.git
     branch: master
     paths: [elixir_phoenix_bench]
+    private_key: ((private-repo-key))
+
 
 - name: phx-bench-docker-image
   type: docker-image

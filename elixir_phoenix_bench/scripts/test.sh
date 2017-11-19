@@ -4,6 +4,7 @@ set -e -x
 uname -a
 
 TARGET_DIR=$(pwd)/test-artifacts
+export DATABASE_URL=ecto://phx_test_user:pass123@meluhha-postgresql/phx_bench_api_test
 
 cd "$1"
 echo "$2"
