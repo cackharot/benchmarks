@@ -69,15 +69,7 @@ defmodule PhxBenchApi.Mixfile do
     content
   end
   defp handle_file_version({:error, _}) do
-    retrieve_version_from_git()
-  end
-  defp retrieve_version_from_git do
-    require Logger
-    Logger.warn "Calling out to `git describe` for the version number. This is slow! You should think about a hook to set the VERSION file"
-    System.cmd("git", ["describe", "--always", "--tags"])
-    |> Tuple.to_list
-    |> List.first
-    |> String.trim
+    "0.0.1"
   end
 
   defp get_version do

@@ -3,7 +3,8 @@ set -e -x
 
 uname -a
 ls
-ls version*
+ls version/*
+cat version/number
 TARGET_DIR=$(pwd)/build-artifact
 VERSION="0.0.1"
 REL_DIR="_build/dev/rel/phx_bench_api/releases/$VERSION"
