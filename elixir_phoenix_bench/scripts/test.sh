@@ -9,5 +9,5 @@ export DATABASE_URL=ecto://phx_test_user:pass123@meluhha-postgresql/phx_bench_ap
 cd "$1"
 echo "$2"
 echo 'Fetch deps, compile and run unit tests'
-mix do deps.get, deps.compile, test --env=prod --verbose
+env MIX_ENV=test mix do deps.get, deps.compile, test
 echo 'Success!'
