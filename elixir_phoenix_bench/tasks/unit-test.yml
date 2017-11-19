@@ -1,0 +1,18 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: aeons/elixir-gcc, tag: "1.4.1"}
+
+inputs:
+- name: src-phx-bench
+
+outputs:
+- name: test-artifacts
+
+run:
+  path: ./src-phx-bench/elixir_phoenix_bench/scripts/test.sh
+  args:
+  - src-phx-bench/elixir_phoenix_bench
+  - unit

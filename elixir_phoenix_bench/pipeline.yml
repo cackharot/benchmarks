@@ -1,11 +1,15 @@
 jobs:
-- name: job-publish
+- name: build-phx-bench
   public: true
   serial: true
   plan:
   - get: src-phx-bench
   - task: build
     file: src-phx-bench/elixir_phoenix_bench/tasks/build.yml
+  - task: unit-test
+    file: src-phx-bench/elixir_phoenix_bench/tasks/unit-test.yml
+  - task: integration-test
+    file: src-phx-bench/elixir_phoenix_bench/tasks/integration-test.yml
   - put: phx-bench-docker-image
     get_params: {skip_download: true}
     params:
