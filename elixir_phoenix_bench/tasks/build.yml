@@ -9,7 +9,7 @@ inputs:
 - name: src-phx-bench
 
 outputs:
-- name: rel-artifacts
+- name: build-artifact
 
 run:
   path: ./src-phx-bench/elixir_phoenix_bench/scripts/build.sh

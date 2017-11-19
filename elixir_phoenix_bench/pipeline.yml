@@ -39,7 +39,7 @@ resources:
   type: git
   source:
     uri: https://github.com/cackharot/benchmarks.git
-    branch: master
+    branch: citest
     paths: [elixir_phoenix_bench]
     # private_key: ((private-repo-key))
 - name: version
