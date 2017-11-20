@@ -17,7 +17,7 @@ jobs:
   - task: build-artifact
     file: src-phx-bench/elixir_phoenix_bench/tasks/build.yml
   - put: pl-elixir-phoenix-artifact
-    params: {file: built-artifact/phx_bench_api-*.tar.gz}
+    params: {file: build-artifact/phx_bench_api*.tar.gz}
   - put: version
     params: {file: version/number}
 - name: integration
@@ -37,13 +37,27 @@ jobs:
     passed: [build-rc]
   - get: version
     params: {bump: final}
+  - task: promote-to-final
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: {repository: alpine}
+      inputs:
+      - name: pl-elixir-phoenix-artifact
+      run:
+        path: cp
+        args: ["phx_bench_api*.tar.gz", "phx_bench_api.tar.gz"]
+  - put: publish
+    resource: phx-bench-docker-image
+    get_params: {skip_download: true}
+    params:
+      build: pl-elixir-phoenix-artifact
+      tag: version/number
+      tag_as_latest: true
   - put: version
     params: {file: version/number}
-  # - put: publish
-  #   resource: phx-bench-docker-image
-  #   get_params: {skip_download: true}
-  #   params:
-  #     build: pl-elixir-phoenix-artifact
+
 - name: major
   serial_groups: [version]
   plan:
@@ -74,6 +88,7 @@ resources:
 - name: version
   type: semver
   source:
+    region_name: ap-south-1
     bucket: pl-elixir-phoenix-artifacts
     key: current-version
     access_key_id: ((s3-access-key-id))
@@ -82,15 +97,15 @@ resources:
 - name: pl-elixir-phoenix-artifact
   type: s3
   source:
+    region_name: ap-south-1
     bucket: pl-elixir-phoenix-artifacts
     regexp: phx_bench_api-(.*).tar.gz
     access_key_id: ((s3-access-key-id))
     secret_access_key: ((s3-secret-access-key))
 
-# - name: phx-bench-docker-image
-#   type: docker-image
-#   source:
-#     repository: 13.127.47.6:30400/testing/phx_bench
-#     tag: debug
-#     insecure_registries:
-#       - "13.127.47.6:30400"
+- name: phx-bench-docker-image
+  type: docker-image
+  source:
+    repository: 13.127.47.6:30400/testing/phx_bench
+    insecure_registries:
+      - "13.127.47.6:30400"

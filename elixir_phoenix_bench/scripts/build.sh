@@ -15,11 +15,11 @@ OUTPUT_ARTIFACT="$TARGET_DIR/phx_bench_api-$VERSION.tar.gz"
 
 
 cd "$*"
+
 echo 'Fetch deps, compile & prod release build...'
-# mix do deps.get, deps.compile, release
+mix do deps.get, deps.compile, release
+
 cp Dockerfile $TARGET_DIR
-mkdir -p $REL_DIR
-touch $SRC_ARTIFACT
 cp $SRC_ARTIFACT $OUTPUT_ARTIFACT
 ls $TARGET_DIR
 echo 'Success!'
