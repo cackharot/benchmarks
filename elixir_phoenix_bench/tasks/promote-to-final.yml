@@ -1,0 +1,19 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source: {repository: alpine}
+
+inputs:
+- name: src-phx-bench
+- name: pl-elixir-phoenix-artifact
+- name: version
+
+outputs:
+- name: promote-to-final
+
+run:
+  path: ./src-phx-bench/elixir_phoenix_bench/scripts/promote.sh
+  args:
+  - src-phx-bench/elixir_phoenix_bench

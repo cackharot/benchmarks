@@ -38,21 +38,12 @@ jobs:
   - get: version
     params: {bump: final}
   - task: promote-to-final
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source: {repository: alpine}
-      inputs:
-      - name: pl-elixir-phoenix-artifact
-      run:
-        path: cp
-        args: ["phx_bench_api*.tar.gz", "phx_bench_api.tar.gz"]
+    file: src-phx-bench/elixir_phoenix_bench/tasks/promote-to-final.yml
   - put: publish
     resource: phx-bench-docker-image
     get_params: {skip_download: true}
     params:
-      build: pl-elixir-phoenix-artifact
+      build: promote-to-final
       tag: version/number
       tag_as_latest: true
   - put: version
