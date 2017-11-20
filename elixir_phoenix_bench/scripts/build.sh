@@ -19,7 +19,7 @@ echo 'Fetch deps, compile & prod release build...'
 # mix do deps.get, deps.compile, release
 cp Dockerfile $TARGET_DIR
 mkdir -p $REL_DIR
-touch $OUTPUT_ARTIFACT
+touch $SRC_ARTIFACT
 cp $SRC_ARTIFACT $OUTPUT_ARTIFACT
 ls $TARGET_DIR
 echo 'Success!'
