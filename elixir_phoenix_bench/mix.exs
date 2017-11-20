@@ -4,7 +4,7 @@ defmodule PhxBenchApi.Mixfile do
   def project do
     [
       app: :phx_bench_api,
-      version: "0.0.1",
+      version: get_version(),
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
       compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -59,5 +59,23 @@ defmodule PhxBenchApi.Mixfile do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       "test": ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
+  end
+
+  defp version_from_file(file \\ "version/number") do
+    File.read(file)
+  end
+
+  defp handle_file_version({:ok, content}) do
+    content
+  end
+  defp handle_file_version({:error, _}) do
+    "0.0.1"
+  end
+
+  defp get_version do
+    version_from_file()
+    |> handle_file_version()
+    |> String.trim
+    |> String.replace_leading("v", "")
   end
 end

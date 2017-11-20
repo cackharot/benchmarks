@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
   web:
-    image: 13.127.47.6:30400/testing/phx_bench:release
+    image: 13.127.47.6:30400/testing/phx_bench:latest
     environment:
       DATABASE_URL: ecto://postgres:pass123@postgres-db/phx_bench_api_prod
     ports:
