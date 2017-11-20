@@ -3,6 +3,7 @@ set -e -x
 
 uname -a
 ls
+cp -r version "$*"
 
 export MIX_ENV=prod
 
