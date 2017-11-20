@@ -3,9 +3,6 @@ set -e -x
 
 uname -a
 ls
-ls version/*
-cat version/number
-cat version/version
 
 export MIX_ENV=prod
 

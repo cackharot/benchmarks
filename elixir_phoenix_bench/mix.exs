@@ -76,11 +76,6 @@ defmodule PhxBenchApi.Mixfile do
     version_from_file()
     |> handle_file_version()
     |> String.trim
-    |> String.split("-")
-    |> case do
-      [tag] -> tag
-      [tag, num_commits, commit] -> "#{tag}-#{num_commits}-#{commit}"
-    end
     |> String.replace_leading("v", "")
   end
 end
