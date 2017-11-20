@@ -1,38 +1,67 @@
 jobs:
-- name: unit-test
+- name: unit
   serial: true
   plan:
   - get: src-phx-bench
     trigger: true
   - task: unit-test
     file: src-phx-bench/elixir_phoenix_bench/tasks/unit-test.yml
-- name: integration-test
-  serial: true
-  plan:
-  - get: src-phx-bench
-    passed: [unit-test]
-    trigger: true
-  - task: integration-test
-    file: src-phx-bench/elixir_phoenix_bench/tasks/integration-test.yml
 - name: build-rc
   serial_groups: [version]
   plan:
   - get: src-phx-bench
-    passed: [integration-test]
+    passed: [unit]
     trigger: true
   - get: version
     params: {pre: rc}
   - task: build-artifact
     file: src-phx-bench/elixir_phoenix_bench/tasks/build.yml
-  - put: pl-elixir-phoenix-rc
+  - put: pl-elixir-phoenix-artifact
     params: {file: built-artifact/phx_bench_api-*.tar.gz}
+  - put: version
+    params: {file: version/number}
+- name: integration
+  plan:
+  - get: src-phx-bench
+    passed: [build-rc]
+    trigger: true
+  - task: integration
+    file: src-phx-bench/elixir_phoenix_bench/tasks/integration-test.yml
+- name: shipit
+  serial_groups: [version]
+  plan:
+  - get: src-phx-bench
+    passed: [integration]
+    trigger: true
+  - get: pl-elixir-phoenix-artifact
+    passed: [build-rc]
+  - get: version
+    params: {bump: final}
   - put: version
     params: {file: version/number}
   # - put: publish
   #   resource: phx-bench-docker-image
   #   get_params: {skip_download: true}
   #   params:
-  #     build: ship
+  #     build: pl-elixir-phoenix-artifact
+- name: major
+  serial_groups: [version]
+  plan:
+  - put: version
+    params: {bump: major, pre: rc}
+- name: minor
+  serial_groups: [version]
+  plan:
+  - put: version
+    params: {bump: minor, pre: rc}
+- name: patch
+  serial_groups: [version]
+  plan:
+  - get: version
+    passed: [shipit]
+    trigger: true
+  - put: version
+    params: {bump: patch, pre: rc}
 
 resources:
 - name: src-phx-bench
@@ -50,7 +79,7 @@ resources:
     access_key_id: ((s3-access-key-id))
     secret_access_key: ((s3-secret-access-key))
     initial_version: 0.0.1
-- name: pl-elixir-phoenix-rc
+- name: pl-elixir-phoenix-artifact
   type: s3
   source:
     bucket: pl-elixir-phoenix-artifacts
