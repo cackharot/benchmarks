@@ -2,7 +2,7 @@
 set -e -x
 
 uname -a
-ls
+ls -ltr
 cp -r version "$*"
 
 export MIX_ENV=prod
@@ -21,5 +21,5 @@ mix do deps.get, deps.compile, release
 
 cp Dockerfile $TARGET_DIR
 cp $SRC_ARTIFACT $OUTPUT_ARTIFACT
-ls $TARGET_DIR
+ls -ltr $TARGET_DIR
 echo 'Success!'
