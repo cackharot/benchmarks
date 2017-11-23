@@ -1,0 +1,3 @@
+<div class="jumbotron">
+  <%= gettext " hellow %{data}" %>
+</div>
